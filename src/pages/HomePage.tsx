@@ -29,7 +29,6 @@ import {
   document,
   colorPalette,
   globe,
-  arrowUp,
   caretUpCircle,
 } from "ionicons/icons";
 import useTaskStore from "./taskState.ts";
