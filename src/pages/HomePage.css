@@ -27,6 +27,9 @@
   height: 40px;
   --padding-start: 0;
   --padding-end: 0;
+  --background: #ff0b55;
+  --background-hover: #cf0f47;
+  --background-activated: #cf0f47;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,6 +39,28 @@
   width: 24px;
   height: 24px;
   font-size: 24px;
+  color: white;
+  margin: 0;
+  padding: 0;
+  display: block;
+  object-fit: contain;
+}
+
+/* IonFab styles */
+ion-fab-button {
+  --background: #cf0f47;
+  --background-activated: #ff0b55;
+  --background-hover: #ff0b55;
+}
+
+/* Bottom menu navigation styles */
+ion-tab-bar {
+  --background: white;
+}
+
+ion-tab-button {
+  --color: #ffdede;
+  --color-selected: #cf0f47;
 }
 
 .task-input-item {

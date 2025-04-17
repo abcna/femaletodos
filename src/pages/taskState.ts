@@ -12,6 +12,7 @@ export interface Task {
 }
 
 interface TaskState {
+  tasks: Task[];
   activeTasks: Task[];
   completedTasks: Task[];
   addTask: (task: Task) => void;
@@ -23,12 +24,19 @@ interface TaskState {
 const useTaskStore = create<TaskState>()(
   persist(
     (set) => ({
+      tasks: [],
       activeTasks: [],
       completedTasks: [],
-      addTask: (task) =>
+      addTask: (task) => {
+        const newTask = {
+          ...task,
+          color: task.color || "#FFB8E0", // Updated default color to light pink
+        };
         set((state) => ({
-          activeTasks: [...state.activeTasks, task],
-        })),
+          tasks: [...state.tasks, newTask],
+          activeTasks: [...state.activeTasks, newTask],
+        }));
+      },
       completeTask: (taskId) =>
         set((state) => {
           const taskToComplete = state.activeTasks.find(
@@ -68,5 +76,4 @@ const useTaskStore = create<TaskState>()(
     }
   )
 );
-
 export default useTaskStore;

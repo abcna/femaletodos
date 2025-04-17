@@ -38,7 +38,7 @@ const HomePage: React.FC = () => {
   const { activeTasks, addTask, completeTask } = useTaskStore();
   const [taskName, setTaskName] = useState("");
   const [category, setCategory] = useState("other");
-  const [color, setColor] = useState("#3880ff");
+  const [color, setColor] = useState("#FFB8E0");
   const [description, setDescription] = useState("No description provided");
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isColorModalOpen, setIsColorModalOpen] = useState(false);
@@ -51,7 +51,7 @@ const HomePage: React.FC = () => {
         id: Date.now(),
         name: taskName,
         category: category || "other",
-        color: color,
+        color: color || "#FFB8E0",
         description: description || "No description provided",
         completed: false,
       };
@@ -59,7 +59,7 @@ const HomePage: React.FC = () => {
       // Reset form
       setTaskName("");
       setCategory("other");
-      setColor("#3880ff");
+      setColor("#FFB8E0");
       setDescription("No description provided");
     }
   };
