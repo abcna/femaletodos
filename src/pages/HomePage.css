@@ -40,13 +40,14 @@
   --border-radius: 50%;
   --padding-start: 0;
   --padding-end: 0;
-  --background: white;
-  --background-hover: white;
-  --background-activated: white;
+  --background: transparent;
+  --background-hover: transparent;
+  --background-activated: transparent;
   width: 25px;
   height: 25px;
   z-index: 10;
   transition: transform 0.2s ease;
+  backdrop-filter: blur(2px);
 }
 
 .submit-button:active {
