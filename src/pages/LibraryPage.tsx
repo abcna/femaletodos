@@ -13,13 +13,32 @@ import {
   IonList,
   IonButton,
   IonIcon,
+  IonItem,
+  IonLabel,
+  IonNote,
+  IonRefresher,
+  IonRefresherContent,
+  RefresherEventDetail,
 } from "@ionic/react";
-import { trash } from "ionicons/icons";
+import {
+  trash,
+  body,
+  school,
+  heart,
+  people,
+  happy,
+  apps,
+} from "ionicons/icons";
 import useTaskStore from "./taskState.ts";
 import "./LibraryPage.css";
 
 const LibraryPage: React.FC = () => {
-  const { completedTasks, clearCompletedTasks } = useTaskStore();
+  const { completedTasks, clearCompletedTasks, refreshTasks } = useTaskStore();
+
+  const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
+    await refreshTasks();
+    event.detail.complete();
+  };
 
   // Function to determine if text should be white based on background color
   const getTextColor = (backgroundColor: string) => {
@@ -46,11 +65,29 @@ const LibraryPage: React.FC = () => {
     return 0;
   });
 
+  // Define category icons and colors
+  const categoryConfig = {
+    جسمی: { icon: body, color: "danger" },
+    "ذهنی - آموزشی": { icon: school, color: "tertiary" },
+    روحی: { icon: heart, color: "success" },
+    "رابطه ای": { icon: people, color: "warning" },
+    تفریح: { icon: happy, color: "primary" },
+    متفرقه: { icon: apps, color: "secondary" },
+  };
+
+  // Calculate completed tasks count for each category
+  const categoryStats = completedTasks.reduce((acc, task) => {
+    // Ensure the category exists in our config, otherwise use "متفرقه"
+    const category = task.category in categoryConfig ? task.category : "متفرقه";
+    acc[category] = (acc[category] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>کار های انجام شده </IonTitle>
+          <IonTitle>کتابخانه</IonTitle>
           <IonButton
             slot="end"
             onClick={clearCompletedTasks}
@@ -61,6 +98,31 @@ const LibraryPage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
+
+        {/* Category Statistics Section */}
+        <IonList inset={true}>
+          {Object.entries(categoryStats).map(([category, count]) => {
+            const config =
+              categoryConfig[category as keyof typeof categoryConfig] ||
+              categoryConfig["متفرقه"];
+            return (
+              <IonItem key={category} button={true}>
+                <IonIcon
+                  color={config.color}
+                  slot="start"
+                  icon={config.icon}
+                  size="large"
+                ></IonIcon>
+                <IonLabel>{category}</IonLabel>
+                <IonNote slot="end">{count}</IonNote>
+              </IonItem>
+            );
+          })}
+        </IonList>
+
         <IonList>
           {sortedCompletedTasks.map((task) => {
             const textColor = getTextColor(task.color);
