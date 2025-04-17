@@ -37,27 +37,36 @@
   position: absolute;
   left: 12px;
   margin: 0;
-  --border-radius: 100%;
+  width: 36px;
+  height: 36px;
+  --border-radius: 50%;
   --padding-start: 0;
   --padding-end: 0;
   --background: #ff0b55;
-  --background-hover: #cf0f47;
-  --background-activated: #cf0f47;
+  --background-hover: #ff0b55;
+  --background-activated: #ff0b55;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10;
+  transform: scale(0.9);
+  transition: transform 0.2s ease;
+}
+
+.submit-button:active {
+  transform: scale(0.85);
 }
 
 .submit-button ion-icon {
-  width: 20px;
-  height: 20px;
-  font-size: 20px;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
   color: white;
   margin: 0;
   padding: 0;
-  display: block;
-  object-fit: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* IonFab styles */
