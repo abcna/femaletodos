@@ -26,5 +26,11 @@
   "background_color": "#FFEDFA",
   "orientation": "portrait",
   "scope": "/",
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "shortcuts": [],
+  "description": "Todo Application",
+  "screenshots": [],
+  "categories": ["productivity", "utilities"],
+  "lang": "en",
+  "dir": "ltr"
 }
