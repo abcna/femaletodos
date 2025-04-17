@@ -12,7 +12,7 @@ const SearchPage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Search</IonTitle>
+          <IonTitle>     Coming soon ChatGPT here</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -21,6 +21,7 @@ const SearchPage: React.FC = () => {
             <IonTitle size="large">Search</IonTitle>
           </IonToolbar>
         </IonHeader>
+   
       </IonContent>
     </IonPage>
   );
