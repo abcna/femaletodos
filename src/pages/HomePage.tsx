@@ -24,7 +24,7 @@ import {
   IonIcon,
   IonModal,
 } from "@ionic/react";
-import { add, document, colorPalette, globe } from "ionicons/icons";
+import { add, document, colorPalette, globe, arrowUp } from "ionicons/icons";
 import useTaskStore from "./taskState.ts";
 
 const HomePage: React.FC = () => {
@@ -75,21 +75,6 @@ const HomePage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <form onSubmit={handleSubmit}>
-          <IonItem>
-            <IonLabel position="floating">Task Name *</IonLabel>
-            <IonInput
-              value={taskName}
-              onIonChange={(e) => setTaskName(e.detail.value!)}
-              required
-            />
-          </IonItem>
-
-          <IonButton expand="block" type="submit" className="ion-margin">
-            Add Task
-          </IonButton>
-        </form>
-
         <IonList>
           {activeTasks.map((task) => {
             const textColor = getTextColor(task.color);
@@ -125,6 +110,56 @@ const HomePage: React.FC = () => {
             );
           })}
         </IonList>
+
+        <div
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+            background: "var(--ion-background-color)",
+            borderTop: "1px solid var(--ion-border-color)",
+            direction: "rtl",
+          }}
+        >
+          <form
+            onSubmit={handleSubmit}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flex: 1,
+              marginRight: "60px",
+              direction: "ltr",
+            }}
+          >
+            <IonButton
+              type="submit"
+              style={{
+                margin: 0,
+                marginLeft: "10px",
+                "--border-radius": "50%",
+                width: "40px",
+                height: "40px",
+                "--padding-start": "0",
+                "--padding-end": "0",
+              }}
+            >
+              <IonIcon icon={arrowUp}></IonIcon>
+            </IonButton>
+            <IonItem style={{ flex: 1, "--padding-start": "0" }}>
+              <IonInput
+                value={taskName}
+                onIonChange={(e) => setTaskName(e.detail.value!)}
+                placeholder="Task Name *"
+                style={{ textAlign: "right" }}
+                required
+              />
+            </IonItem>
+          </form>
+        </div>
 
         <IonFab slot="fixed" vertical="bottom" horizontal="end">
           <IonFabButton>
