@@ -18,17 +18,14 @@ import {
   IonCheckbox,
   IonLabel,
   IonList,
+  IonFab,
+  IonFabButton,
+  IonFabList,
+  IonIcon,
+  IonModal,
 } from "@ionic/react";
+import { add, document, colorPalette, globe } from "ionicons/icons";
 import useTaskStore from "./taskState.ts";
-
-interface Task {
-  id: number;
-  name: string;
-  category: string;
-  color: string;
-  description: string;
-  completed: boolean;
-}
 
 const HomePage: React.FC = () => {
   const { activeTasks, addTask, completeTask } = useTaskStore();
@@ -36,6 +33,9 @@ const HomePage: React.FC = () => {
   const [category, setCategory] = useState("other");
   const [color, setColor] = useState("#3880ff");
   const [description, setDescription] = useState("No description provided");
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [isColorModalOpen, setIsColorModalOpen] = useState(false);
+  const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,16 +59,11 @@ const HomePage: React.FC = () => {
 
   // Function to determine if text should be white based on background color
   const getTextColor = (backgroundColor: string) => {
-    // Convert hex to RGB
     const hex = backgroundColor.replace("#", "");
     const r = parseInt(hex.substring(0, 2), 16);
     const g = parseInt(hex.substring(2, 4), 16);
     const b = parseInt(hex.substring(4, 6), 16);
-
-    // Calculate brightness
     const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-
-    // Return white for dark backgrounds, black for light backgrounds
     return brightness < 128 ? "white" : "black";
   };
 
@@ -87,38 +82,6 @@ const HomePage: React.FC = () => {
               value={taskName}
               onIonChange={(e) => setTaskName(e.detail.value!)}
               required
-            />
-          </IonItem>
-
-          <IonItem>
-            <IonLabel>Category</IonLabel>
-            <IonSelect
-              value={category}
-              onIonChange={(e) => setCategory(e.detail.value)}
-              placeholder="Select Category"
-            >
-              <IonSelectOption value="work">Work</IonSelectOption>
-              <IonSelectOption value="personal">Personal</IonSelectOption>
-              <IonSelectOption value="shopping">Shopping</IonSelectOption>
-              <IonSelectOption value="other">Other</IonSelectOption>
-            </IonSelect>
-          </IonItem>
-
-          <IonItem>
-            <IonLabel>Color</IonLabel>
-            <input
-              type="color"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              style={{ width: "50px", height: "30px", marginLeft: "10px" }}
-            />
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="floating">Description</IonLabel>
-            <IonInput
-              value={description}
-              onIonChange={(e) => setDescription(e.detail.value!)}
             />
           </IonItem>
 
@@ -162,6 +125,88 @@ const HomePage: React.FC = () => {
             );
           })}
         </IonList>
+
+        <IonFab slot="fixed" vertical="bottom" horizontal="end">
+          <IonFabButton>
+            <IonIcon icon={add}></IonIcon>
+          </IonFabButton>
+          <IonFabList side="top">
+            <IonFabButton onClick={() => setIsCategoryModalOpen(true)}>
+              <IonIcon icon={document}></IonIcon>
+            </IonFabButton>
+            <IonFabButton onClick={() => setIsColorModalOpen(true)}>
+              <IonIcon icon={colorPalette}></IonIcon>
+            </IonFabButton>
+            <IonFabButton onClick={() => setIsDescriptionModalOpen(true)}>
+              <IonIcon icon={globe}></IonIcon>
+            </IonFabButton>
+          </IonFabList>
+        </IonFab>
+
+        {/* Category Modal */}
+        <IonModal
+          isOpen={isCategoryModalOpen}
+          onDidDismiss={() => setIsCategoryModalOpen(false)}
+          initialBreakpoint={0.25}
+          breakpoints={[0, 0.25, 0.5, 0.75]}
+          handleBehavior="cycle"
+        >
+          <IonContent className="ion-padding">
+            <IonItem>
+              <IonLabel>Category</IonLabel>
+              <IonSelect
+                value={category}
+                onIonChange={(e) => setCategory(e.detail.value)}
+                placeholder="Select Category"
+              >
+                <IonSelectOption value="work">Work</IonSelectOption>
+                <IonSelectOption value="personal">Personal</IonSelectOption>
+                <IonSelectOption value="shopping">Shopping</IonSelectOption>
+                <IonSelectOption value="other">Other</IonSelectOption>
+              </IonSelect>
+            </IonItem>
+          </IonContent>
+        </IonModal>
+
+        {/* Color Modal */}
+        <IonModal
+          isOpen={isColorModalOpen}
+          onDidDismiss={() => setIsColorModalOpen(false)}
+          initialBreakpoint={0.25}
+          breakpoints={[0, 0.25, 0.5, 0.75]}
+          handleBehavior="cycle"
+        >
+          <IonContent className="ion-padding">
+            <IonItem>
+              <IonLabel>Color</IonLabel>
+              <input
+                type="color"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+                style={{ width: "50px", height: "30px", marginLeft: "10px" }}
+              />
+            </IonItem>
+          </IonContent>
+        </IonModal>
+
+        {/* Description Modal */}
+        <IonModal
+          isOpen={isDescriptionModalOpen}
+          onDidDismiss={() => setIsDescriptionModalOpen(false)}
+          initialBreakpoint={0.25}
+          breakpoints={[0, 0.25, 0.5, 0.75]}
+          handleBehavior="cycle"
+        >
+          <IonContent className="ion-padding">
+            <IonItem>
+              <IonLabel position="floating">Description</IonLabel>
+              <IonInput
+                value={description}
+                onIonChange={(e) => setDescription(e.detail.value!)}
+              />
+            </IonItem>
+          </IonContent>
+        </IonModal>
       </IonContent>
     </IonPage>
   );
