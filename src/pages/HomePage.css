@@ -40,11 +40,11 @@
   --border-radius: 50%;
   --padding-start: 0;
   --padding-end: 0;
-  --background: #ff0b55;
-  --background-hover: #ff0b55;
-  --background-activated: #ff0b55;
-  width: 40px;
-  height: 40px;
+  --background: white;
+  --background-hover: white;
+  --background-activated: white;
+  width: 25px;
+  height: 25px;
   z-index: 10;
   transition: transform 0.2s ease;
 }
@@ -54,7 +54,8 @@
 }
 
 .submit-button ion-icon {
-  color: white;
+  font-size: 20px;
+  color: #ff0b55;
 }
 
 /* IonFab styles */
