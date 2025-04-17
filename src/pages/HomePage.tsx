@@ -24,7 +24,13 @@ import {
   IonIcon,
   IonModal,
 } from "@ionic/react";
-import { add, document, colorPalette, globe, arrowUp } from "ionicons/icons";
+import {
+  add,
+  document,
+  colorPalette,
+  globe,
+  arrowUpCircle,
+} from "ionicons/icons";
 import useTaskStore from "./taskState.ts";
 import "./HomePage.css";
 
@@ -112,7 +118,7 @@ const HomePage: React.FC = () => {
         <div className="task-input-container">
           <form onSubmit={handleSubmit} className="task-form">
             <IonButton type="submit" className="submit-button">
-              <IonIcon icon={arrowUp}></IonIcon>
+              <IonIcon icon={arrowUpCircle}></IonIcon>
             </IonButton>
             <IonItem className="task-input-item">
               <IonInput
