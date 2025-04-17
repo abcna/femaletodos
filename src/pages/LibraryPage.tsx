@@ -50,7 +50,7 @@ const LibraryPage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Completed Tasks</IonTitle>
+          <IonTitle>کار های انجام شده </IonTitle>
           <IonButton
             slot="end"
             onClick={clearCompletedTasks}

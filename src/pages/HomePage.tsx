@@ -24,19 +24,27 @@ import {
   IonIcon,
   IonModal,
 } from "@ionic/react";
-import { add, document, colorPalette, globe, arrowUp } from "ionicons/icons";
+import { add, document, colorPalette, arrowUp , text} from "ionicons/icons";
 import useTaskStore from "./taskState.ts";
 import "./HomePage.css";
 
 const HomePage: React.FC = () => {
   const { activeTasks, addTask, completeTask } = useTaskStore();
   const [taskName, setTaskName] = useState("");
-  const [category, setCategory] = useState("other");
-  const [color, setColor] = useState("#FFB8E0");
-  const [description, setDescription] = useState("No description provided");
+  const [category, setCategory] = useState("");
+  const [color, setColor] = useState("");
+  const [description, setDescription] = useState("");
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isColorModalOpen, setIsColorModalOpen] = useState(false);
   const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
+  const categories = [
+    "جسمی",
+    "ذهنی - آموزشی",
+    "روحی",
+    "رابطه ای",
+    "تفریح",
+    "متفرقه",
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +54,7 @@ const HomePage: React.FC = () => {
         name: taskName,
         category: category || "other",
         color: color || "#FFB8E0",
-        description: description || "No description provided",
+        description: description || "",
         completed: false,
       };
       addTask(newTask);
@@ -54,7 +62,7 @@ const HomePage: React.FC = () => {
       setTaskName("");
       setCategory("other");
       setColor("#FFB8E0");
-      setDescription("No description provided");
+      setDescription("");
     }
   };
 
@@ -118,7 +126,7 @@ const HomePage: React.FC = () => {
               <IonInput
                 value={taskName}
                 onIonChange={(e) => setTaskName(e.detail.value!)}
-                placeholder="Task Name *"
+                placeholder=" امروز چیکارا داریم؟؟  اینجا بنویس."
                 className="task-input"
                 required
               />
@@ -128,17 +136,17 @@ const HomePage: React.FC = () => {
 
         <IonFab slot="fixed" vertical="bottom" horizontal="end">
           <IonFabButton>
-            <IonIcon icon={add}></IonIcon>
+            <IonIcon icon={add} style={{color: "white"}}></IonIcon>
           </IonFabButton>
           <IonFabList side="top">
             <IonFabButton onClick={() => setIsCategoryModalOpen(true)}>
-              <IonIcon icon={document}></IonIcon>
+              <IonIcon icon={document} style={{color: "white"}}></IonIcon>
             </IonFabButton>
             <IonFabButton onClick={() => setIsColorModalOpen(true)}>
-              <IonIcon icon={colorPalette}></IonIcon>
+              <IonIcon icon={colorPalette} style={{color: "white"}}></IonIcon>
             </IonFabButton>
             <IonFabButton onClick={() => setIsDescriptionModalOpen(true)}>
-              <IonIcon icon={globe}></IonIcon>
+              <IonIcon icon={text} style={{color: "white"}}></IonIcon>
             </IonFabButton>
           </IonFabList>
         </IonFab>
@@ -153,16 +161,17 @@ const HomePage: React.FC = () => {
         >
           <IonContent className="ion-padding">
             <IonItem>
-              <IonLabel>Category</IonLabel>
+              <IonLabel>دسته‌بندی</IonLabel>
               <IonSelect
                 value={category}
                 onIonChange={(e) => setCategory(e.detail.value)}
-                placeholder="Select Category"
+                placeholder="انتخاب دسته‌بندی"
               >
-                <IonSelectOption value="work">Work</IonSelectOption>
-                <IonSelectOption value="personal">Personal</IonSelectOption>
-                <IonSelectOption value="shopping">Shopping</IonSelectOption>
-                <IonSelectOption value="other">Other</IonSelectOption>
+                {categories.map((cat) => (
+                  <IonSelectOption key={cat} value={cat}>
+                    {cat}
+                  </IonSelectOption>
+                ))}
               </IonSelect>
             </IonItem>
           </IonContent>
