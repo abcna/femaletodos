@@ -44,7 +44,7 @@ const HomePage: React.FC = () => {
         id: Date.now(),
         name: taskName,
         category: category || "other",
-        color: color || "#3880ff",
+        color: color,
         description: description || "No description provided",
         completed: false,
       };
@@ -179,13 +179,22 @@ const HomePage: React.FC = () => {
           <IonContent className="ion-padding">
             <IonItem>
               <IonLabel>Color</IonLabel>
-              <input
+              <IonInput
                 type="color"
                 value={color}
-                onChange={(e) => setColor(e.target.value)}
-                style={{ width: "50px", height: "30px", marginLeft: "10px" }}
+                onIonChange={(e) => setColor(e.detail.value!)}
+                style={{ width: "50px", height: "30px" }}
               />
             </IonItem>
+            <div
+              style={{
+                width: "100%",
+                height: "50px",
+                backgroundColor: color,
+                marginTop: "20px",
+                borderRadius: "8px",
+              }}
+            ></div>
           </IonContent>
         </IonModal>
 
