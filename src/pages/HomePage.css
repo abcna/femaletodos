@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   padding: 10px;
-  background: var(--ion-background-color);
+  background: #ffedfa;
   border-top: 1px solid var(--ion-border-color);
   direction: rtl;
 }
