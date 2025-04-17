@@ -8,6 +8,7 @@ export interface Task {
   color: string;
   description: string;
   completed: boolean;
+  completedAt?: string; // Optional completedAt timestamp
 }
 
 interface TaskState {
@@ -39,8 +40,12 @@ const useTaskStore = create<TaskState>()(
                 (task) => task.id !== taskId
               ),
               completedTasks: [
+                {
+                  ...taskToComplete,
+                  completed: true,
+                  completedAt: new Date().toISOString(),
+                },
                 ...state.completedTasks,
-                { ...taskToComplete, completed: true },
               ],
             };
           }
@@ -48,8 +53,14 @@ const useTaskStore = create<TaskState>()(
         }),
       clearCompletedTasks: () => set({ completedTasks: [] }),
       refreshTasks: () => {
-        // This will trigger a re-render by updating the state
-        set((state) => ({ ...state }));
+        const storedTasks = localStorage.getItem("task-storage");
+        if (storedTasks) {
+          const parsed = JSON.parse(storedTasks);
+          set({
+            activeTasks: parsed.state.activeTasks || [],
+            completedTasks: parsed.state.completedTasks || [],
+          });
+        }
       },
     }),
     {

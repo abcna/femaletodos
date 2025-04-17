@@ -26,6 +26,7 @@ import {
 } from "@ionic/react";
 import { add, document, colorPalette, globe, arrowUp } from "ionicons/icons";
 import useTaskStore from "./taskState.ts";
+import "./HomePage.css";
 
 const HomePage: React.FC = () => {
   const { activeTasks, addTask, completeTask } = useTaskStore();
@@ -81,14 +82,8 @@ const HomePage: React.FC = () => {
             return (
               <IonCard key={task.id} style={{ backgroundColor: task.color }}>
                 <IonCardHeader>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <div>
+                  <div className="task-card">
+                    <div className="task-content">
                       <IonCardTitle style={{ color: textColor }}>
                         {task.name}
                       </IonCardTitle>
@@ -99,11 +94,14 @@ const HomePage: React.FC = () => {
                     <IonCheckbox
                       checked={task.completed}
                       onIonChange={() => completeTask(task.id)}
-                      style={{ marginLeft: "auto" }}
+                      className="task-checkbox"
                     />
                   </div>
                 </IonCardHeader>
-                <IonCardContent style={{ color: textColor }}>
+                <IonCardContent
+                  className="task-description"
+                  style={{ color: textColor }}
+                >
                   {task.description}
                 </IonCardContent>
               </IonCard>
@@ -111,50 +109,17 @@ const HomePage: React.FC = () => {
           })}
         </IonList>
 
-        <div
-          style={{
-            position: "fixed",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-            background: "var(--ion-background-color)",
-            borderTop: "1px solid var(--ion-border-color)",
-            direction: "rtl",
-          }}
-        >
-          <form
-            onSubmit={handleSubmit}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flex: 1,
-              marginRight: "60px",
-              direction: "ltr",
-            }}
-          >
-            <IonButton
-              type="submit"
-              style={{
-                margin: 0,
-                marginLeft: "10px",
-                "--border-radius": "50%",
-                width: "40px",
-                height: "40px",
-                "--padding-start": "0",
-                "--padding-end": "0",
-              }}
-            >
+        <div className="task-input-container">
+          <form onSubmit={handleSubmit} className="task-form">
+            <IonButton type="submit" className="submit-button">
               <IonIcon icon={arrowUp}></IonIcon>
             </IonButton>
-            <IonItem style={{ flex: 1, "--padding-start": "0" }}>
+            <IonItem className="task-input-item">
               <IonInput
                 value={taskName}
                 onIonChange={(e) => setTaskName(e.detail.value!)}
                 placeholder="Task Name *"
-                style={{ textAlign: "right" }}
+                className="task-input"
                 required
               />
             </IonItem>
@@ -222,13 +187,8 @@ const HomePage: React.FC = () => {
               />
             </IonItem>
             <div
-              style={{
-                width: "100%",
-                height: "50px",
-                backgroundColor: color,
-                marginTop: "20px",
-                borderRadius: "8px",
-              }}
+              className="color-preview"
+              style={{ backgroundColor: color }}
             ></div>
           </IonContent>
         </IonModal>
