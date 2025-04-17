@@ -17,3 +17,21 @@
   text-align: right;
   width: 100%;
 }
+
+.clear-button {
+  --background: transparent;
+  --background-hover: transparent;
+  --background-activated: transparent;
+  --box-shadow: none;
+  margin: 0;
+  padding: 0;
+  width: 48px;
+  height: 48px;
+}
+
+.clear-button ion-icon {
+  color: #ff0b55;
+  width: 32px;
+  height: 32px;
+  font-size: 32px;
+}

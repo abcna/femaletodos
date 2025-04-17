@@ -14,12 +14,12 @@ import {
   IonButton,
   IonIcon,
 } from "@ionic/react";
-import { refresh } from "ionicons/icons";
+import { trash } from "ionicons/icons";
 import useTaskStore from "./taskState.ts";
 import "./LibraryPage.css";
 
 const LibraryPage: React.FC = () => {
-  const { completedTasks, refreshTasks } = useTaskStore();
+  const { completedTasks, clearCompletedTasks } = useTaskStore();
 
   // Function to determine if text should be white based on background color
   const getTextColor = (backgroundColor: string) => {
@@ -51,8 +51,12 @@ const LibraryPage: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Completed Tasks</IonTitle>
-          <IonButton slot="end" onClick={refreshTasks}>
-            <IonIcon icon={refresh}></IonIcon>
+          <IonButton
+            slot="end"
+            onClick={clearCompletedTasks}
+            className="clear-button"
+          >
+            <IonIcon icon={trash}></IonIcon>
           </IonButton>
         </IonToolbar>
       </IonHeader>
