@@ -37,8 +37,6 @@
   position: absolute;
   left: 12px;
   margin: 0;
-  width: 36px;
-  height: 36px;
   --border-radius: 50%;
   --padding-start: 0;
   --padding-end: 0;
@@ -58,8 +56,6 @@
 }
 
 .submit-button ion-icon {
-  width: 24px;
-  height: 24px;
   font-size: 24px;
   color: white;
   margin: 0;
