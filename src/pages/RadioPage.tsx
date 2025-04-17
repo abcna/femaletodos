@@ -12,7 +12,7 @@ const RadioPage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Radio</IonTitle>
+          <IonTitle>Period Calender</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

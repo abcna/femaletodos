@@ -23,6 +23,7 @@ import {
   IonFabList,
   IonIcon,
   IonModal,
+  IonTextarea,
 } from "@ionic/react";
 import { add, document, colorPalette, arrowUp , text} from "ionicons/icons";
 import useTaskStore from "./taskState.ts";
@@ -126,7 +127,7 @@ const HomePage: React.FC = () => {
               <IonInput
                 value={taskName}
                 onIonChange={(e) => setTaskName(e.detail.value!)}
-                placeholder=" امروز چیکارا داریم؟؟  اینجا بنویس."
+                placeholder=" امروز چیکارا داریم؟؟"
                 className="task-input"
                 required
               />
@@ -213,8 +214,13 @@ const HomePage: React.FC = () => {
           <IonContent className="ion-padding">
             <IonItem>
               <IonLabel position="floating">Description</IonLabel>
-              <IonInput
+              <IonTextarea
                 value={description}
+                placeholder="جزئیات اینجا بنویس..."
+                autoGrow={true}
+                rows={4}
+                className="ion-text-right"
+                style={{ direction: 'rtl' }}
                 onIonChange={(e) => setDescription(e.detail.value!)}
               />
             </IonItem>
