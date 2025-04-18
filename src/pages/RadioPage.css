@@ -1,0 +1,13 @@
+ion-content {
+  --background: #ffedfa;
+}
+
+ion-toolbar {
+  --background: #ffedfa;
+  --color: #d695c4;
+}
+
+ion-title {
+  color: #d695c4;
+  font-weight: bold;
+}

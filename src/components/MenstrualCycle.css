@@ -1,0 +1,149 @@
+ion-datetime {
+  --background: var(--ion-background-color);
+  --background-rgb: var(--ion-background-color-rgb);
+  --wheel-highlight-background: var(--ion-color-primary);
+  --wheel-fade-background-rgb: var(--ion-background-color-rgb);
+}
+
+ion-card {
+  --background: #ffedfa;
+  margin: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-card-header {
+  padding: 16px;
+}
+
+ion-card-title {
+  color: #d695c4;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+ion-item {
+  --background: #ffedfa;
+  --border-color: #d695c4;
+  margin-bottom: 8px;
+  border-radius: 8px;
+}
+
+ion-label {
+  color: #d695c4;
+}
+
+ion-button {
+  --background: #d695c4;
+  --background-hover: #ff0b55;
+  --background-activated: #ff0b55;
+  margin-top: 16px;
+}
+
+.custom-calendar {
+  width: 100%;
+  direction: rtl;
+  font-family: "Vazir", sans-serif;
+}
+
+.custom-calendar .rmdp-container {
+  width: 100%;
+}
+
+.custom-calendar .rmdp-header {
+  font-size: 1.2em;
+  color: var(--ion-color-primary);
+}
+
+.custom-calendar .rmdp-week-day {
+  color: var(--ion-color-medium);
+  font-size: 0.9em;
+}
+
+.custom-calendar .rmdp-day {
+  font-size: 1em;
+}
+
+.custom-calendar .rmdp-selected span:not(.highlight) {
+  background-color: var(--ion-color-primary);
+}
+
+.custom-calendar .rmdp-today span {
+  background-color: var(--ion-color-primary-tint);
+  color: var(--ion-color-primary-contrast);
+}
+
+.custom-calendar .rmdp-arrow {
+  border: solid var(--ion-color-medium) 1px;
+}
+
+.custom-calendar .rmdp-arrow-container:hover {
+  background-color: var(--ion-color-primary-tint);
+}
+
+.custom-calendar .rmdp-panel {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.custom-calendar .rmdp-panel-body {
+  border-radius: 8px;
+}
+
+.custom-calendar .rmdp-panel {
+  background-color: var(--ion-background-color);
+}
+
+.custom-calendar .rmdp-panel-body {
+  background-color: var(--ion-background-color);
+}
+
+.custom-calendar .rmdp-day.rmdp-selected span:not(.highlight) {
+  background-color: var(--ion-color-primary);
+}
+
+.custom-calendar .rmdp-day.rmdp-today span {
+  background-color: var(--ion-color-primary-tint);
+  color: var(--ion-color-primary-contrast);
+}
+
+.custom-calendar .rmdp-day.rmdp-disabled {
+  color: var(--ion-color-medium);
+}
+
+.custom-calendar .rmdp-day.rmdp-disabled span {
+  color: var(--ion-color-medium);
+}
+
+.calendar-container {
+  width: 100%;
+  margin: 16px 0;
+  direction: rtl;
+}
+
+.custom-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--ion-color-medium);
+  border-radius: 8px;
+  background-color: var(--ion-background-color);
+  color: var(--ion-color-dark);
+  font-family: "Vazir", sans-serif;
+  text-align: right;
+}
+
+.custom-container {
+  width: 100%;
+  direction: rtl;
+}
+
+.custom-datetime {
+  --background: var(--ion-background-color);
+  --background-rgb: var(--ion-background-color-rgb);
+  --wheel-highlight-background: var(--ion-color-primary);
+  --wheel-fade-background-rgb: var(--ion-background-color-rgb);
+  width: 100%;
+  margin: 16px 0;
+  border-radius: 8px;
+  border: 1px solid var(--ion-color-medium);
+}
