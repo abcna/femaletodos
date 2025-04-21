@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "groq": "^3.85.1",
     "jalaali-js": "^1.2.8",
     "moment-jalaali": "^0.10.4",
     "react": "^19.1.0",
