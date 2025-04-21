@@ -7,7 +7,6 @@ import {
   IonToolbar,
   IonItem,
   IonLabel,
-  IonInput,
   IonButton,
   IonIcon,
   IonCard,
@@ -17,6 +16,7 @@ import {
   IonSelect,
   IonSelectOption,
   IonFooter,
+  IonTextarea,
 } from "@ionic/react";
 import { send } from "ionicons/icons";
 import "./SearchPage.css";
@@ -29,8 +29,9 @@ declare global {
 }
 
 interface Message {
-  role: "user" | "assistant";
+  role: "user" | "assistant" | "system";
   content: string;
+  timestamp: number;
 }
 
 // Available Groq models
@@ -41,6 +42,9 @@ const GROQ_MODELS = [
   { value: "gemma-7b-it", label: "Gemma 7B" },
 ];
 
+const SYSTEM_PROMPT =
+  "You are a helpful assistant that speaks Persian (Farsi). Please respond in Persian.";
+
 const SearchPage: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -49,7 +53,10 @@ const SearchPage: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const [apiKeyValid, setApiKeyValid] = useState<boolean | null>(null);
   const [selectedModel, setSelectedModel] = useState("llama3-70b-8192");
+  const [textareaHeight, setTextareaHeight] = useState("auto");
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLIonTextareaElement>(null);
 
   // Groq API key - ensure it's properly formatted
   const GROQ_API_KEY =
@@ -64,11 +71,19 @@ const SearchPage: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
+  // Focus input on component mount
+  useEffect(() => {
+    if (inputRef.current) {
+      setTimeout(() => {
+        inputRef.current?.setFocus();
+      }, 500);
+    }
+  }, []);
+
   // Test the API key when component mounts
   useEffect(() => {
     const testApiKey = async () => {
       try {
-        console.log("Testing API key...");
         const response = await fetch(GROQ_API_URL, {
           method: "POST",
           headers: {
@@ -85,14 +100,10 @@ const SearchPage: React.FC = () => {
           }),
         });
 
-        console.log("API test response status:", response.status);
-
         if (response.ok) {
-          console.log("API key is valid");
           setApiKeyValid(true);
         } else {
           const errorText = await response.text();
-          console.error("API key test failed:", errorText);
           setApiKeyValid(false);
           setErrorMessage(
             `API key validation failed: ${response.status} - ${errorText}`
@@ -100,7 +111,6 @@ const SearchPage: React.FC = () => {
           setShowToast(true);
         }
       } catch (error) {
-        console.error("API key test error:", error);
         setApiKeyValid(false);
         setErrorMessage(
           `API key test error: ${
@@ -122,24 +132,23 @@ const SearchPage: React.FC = () => {
       return;
     }
 
-    const userMessage: Message = { role: "user", content: input };
+    const timestamp = Date.now();
+    const userMessage: Message = {
+      role: "user",
+      content: input,
+      timestamp,
+    };
+
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
+    setTextareaHeight("auto");
     setIsLoading(true);
 
     try {
-      console.log("Sending request to Groq API...");
-      console.log("Using model:", selectedModel);
-
-      // Create a simple request with minimal parameters
       const requestBody = {
         model: selectedModel,
         messages: [
-          {
-            role: "system",
-            content:
-              "You are a helpful assistant that speaks Persian (Farsi). Please respond in Persian.",
-          },
+          { role: "system", content: SYSTEM_PROMPT },
           ...messages.map((msg) => ({ role: msg.role, content: msg.content })),
           { role: "user", content: input },
         ],
@@ -147,14 +156,6 @@ const SearchPage: React.FC = () => {
         max_tokens: 1000,
       };
 
-      console.log("Request body:", JSON.stringify(requestBody, null, 2));
-      console.log("API URL:", GROQ_API_URL);
-      console.log(
-        "API Key (first 10 chars):",
-        GROQ_API_KEY.substring(0, 10) + "..."
-      );
-
-      // Make the API request
       const response = await fetch(GROQ_API_URL, {
         method: "POST",
         headers: {
@@ -164,23 +165,14 @@ const SearchPage: React.FC = () => {
         body: JSON.stringify(requestBody),
       });
 
-      console.log("Response status:", response.status);
-      console.log(
-        "Response headers:",
-        JSON.stringify(Object.fromEntries([...response.headers]), null, 2)
-      );
-
       if (!response.ok) {
         const errorText = await response.text();
-        console.error("API error response:", errorText);
         throw new Error(`API error: ${response.status} - ${errorText}`);
       }
 
       const data = await response.json();
-      console.log("API response:", data);
 
       if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-        console.error("Unexpected API response format:", data);
         throw new Error("Unexpected API response format");
       }
 
@@ -188,6 +180,7 @@ const SearchPage: React.FC = () => {
         role: "assistant",
         content:
           data.choices[0].message.content || "متاسفانه پاسخی دریافت نشد.",
+        timestamp: Date.now(),
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -200,10 +193,17 @@ const SearchPage: React.FC = () => {
       const errorMessage: Message = {
         role: "assistant",
         content: "متاسفانه خطایی رخ داد. لطفا دوباره تلاش کنید.",
+        timestamp: Date.now(),
       };
+
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+      if (inputRef.current) {
+        setTimeout(() => {
+          inputRef.current?.setFocus();
+        }, 100);
+      }
     }
   };
 
@@ -216,7 +216,29 @@ const SearchPage: React.FC = () => {
 
   const handleModelChange = (event: CustomEvent) => {
     setSelectedModel(event.detail.value);
-    console.log("Model changed to:", event.detail.value);
+  };
+
+  const handleInputChange = (e: CustomEvent) => {
+    setInput(e.detail.value!);
+
+    if (inputRef.current) {
+      const textarea = inputRef.current;
+      textarea.style.height = "auto";
+      const scrollHeight = textarea.scrollHeight;
+      const newHeight = Math.min(scrollHeight, 150);
+      textarea.style.height = `${newHeight}px`;
+      setTextareaHeight(`${newHeight}px`);
+    }
+  };
+
+  const formatDate = (timestamp: number) => {
+    return new Date(timestamp).toLocaleDateString("fa-IR", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   return (
@@ -251,6 +273,13 @@ const SearchPage: React.FC = () => {
         </div>
 
         <div className="messages-container">
+          {messages.length === 0 && (
+            <div className="welcome-message">
+              <h2>به دستیار هوشمند خوش آمدید</h2>
+              <p>لطفاً سوال یا درخواست خود را به فارسی بنویسید.</p>
+            </div>
+          )}
+
           {messages.map((message, index) => (
             <IonCard
               key={index}
@@ -260,6 +289,9 @@ const SearchPage: React.FC = () => {
             >
               <IonCardContent>
                 <p className="message-text">{message.content}</p>
+                <div className="message-timestamp">
+                  {formatDate(message.timestamp)}
+                </div>
               </IonCardContent>
             </IonCard>
           ))}
@@ -274,12 +306,15 @@ const SearchPage: React.FC = () => {
 
       <IonFooter className="chat-footer">
         <div className="input-container">
-          <IonInput
+          <IonTextarea
+            ref={inputRef}
             value={input}
-            onIonChange={(e) => setInput(e.detail.value!)}
-            onKeyPress={handleKeyPress}
+            onIonChange={handleInputChange}
+            onKeyDown={handleKeyPress}
             placeholder="پیام خود را بنویسید..."
             className="message-input"
+            rows={1}
+            style={{ height: textareaHeight }}
           />
           <IonButton
             onClick={handleSend}
