@@ -207,9 +207,10 @@ const SearchPage: React.FC = () => {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLIonTextareaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
+      e.stopPropagation();
       handleSend();
     }
   };
@@ -219,7 +220,8 @@ const SearchPage: React.FC = () => {
   };
 
   const handleInputChange = (e: CustomEvent) => {
-    setInput(e.detail.value!);
+    const value = e.detail.value!;
+    setInput(value);
 
     if (inputRef.current) {
       const textarea = inputRef.current;
@@ -315,6 +317,8 @@ const SearchPage: React.FC = () => {
             className="message-input"
             rows={1}
             style={{ height: textareaHeight }}
+            enterkeyhint="send"
+            autoGrow={true}
           />
           <IonButton
             onClick={handleSend}
